@@ -19,7 +19,6 @@ import "./style.css";
 export function App() {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("auth");
-    console.log(loggedUserJSON);
     if (loggedUserJSON) {
       const auth = JSON.parse(loggedUserJSON);
       setAuth(auth);

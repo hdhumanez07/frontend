@@ -123,7 +123,7 @@ export function Aside() {
                 <span class="ml-3 flex-1 whitespace-nowrap">Salir</span>
               </button>
               <a
-                href="https://themesberg.com/docs/windster/"
+                href="https://github.com/hdhumanez07/api-rest-users?tab=readme-ov-file#pasos-para-ejecutar-el-proyecto"
                 target="_blank"
                 class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2"
               >

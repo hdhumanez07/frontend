@@ -7,12 +7,21 @@ import { Toaster } from "react-hot-toast";
 import { IResponse } from "../../interfaces/http.interface";
 import { doAlert } from "../../utils/alert";
 import { useNavigate } from "react-router-dom";
+import { IDepartment } from "../../interfaces/department.interface";
+import { ICity } from "../../interfaces/city.interface";
+import { useEffect, useState } from "preact/hooks";
+import { getDepartments } from "../../services/department.service";
+import { getCities } from "../../services/city.service";
 
 export function Signup() {
+  const [departments, setDepartments] = useState<IDepartment[]>([]);
+  const [cities, setCities] = useState<ICity[]>([]);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<TUserSchema>({
     resolver: zodResolver(userSchema),
@@ -30,6 +39,17 @@ export function Signup() {
       }
     });
   };
+
+  // este useEffect se ejecuta una sola vez cuando el componente se monta para obtener los departamentos
+  useEffect(() => {
+    getDepartments().then((data) => setDepartments(data.data));
+  }, []);
+
+  // este useEffect se ejecuta cada vez que cambia el departamento seleccionado
+  useEffect(() => {
+    const department = watch("department");
+    getCities({ department }).then((data) => setCities(data.data));
+  }, [watch("department")]);
 
   return (
     <>
@@ -122,40 +142,48 @@ export function Signup() {
                 />
                 <p class="text-xs text-red-200">{errors.birthday?.message}</p>
               </div>
-              <div class="w-full sm:flex sm:gap-2 mb-1">
-                <div class="w-full sm:w-1/2 mb-1 sm:mb-0">
-                  <label class="block mb-1 text-gray-300" for="city">
-                    Ciudad
-                  </label>
-                  <select
-                    class="w-full rounded-lg border border-gray-300 bg-gray-700 text-white py-2 px-3 text-sm"
-                    {...register("city", { value: "63405e8ba6545ec8621c1458" })}
-                  >
-                    <option value="63405e8ba6545ec8621c1458">Bogotá</option>
-                    <option value="Medellín">Medellín</option>
-                    <option value="Cali">Cali</option>
-                  </select>
-                  <p class="text-xs text-red-200">{errors.city?.message}</p>
-                </div>
-                <div class="w-full sm:w-1/2">
-                  <label class="block mb-1 text-gray-300" for="department">
-                    Departamento
-                  </label>
-                  <select
-                    class="w-full rounded-lg border border-gray-300 bg-gray-700 text-white py-2 px-3 text-sm"
-                    {...register("department", {
-                      value: "63405e8ba6545ec8621c1455",
-                    })}
-                  >
-                    <option value="63405e8ba6545ec8621c1455">Colombia</option>
-                    <option value="Peru">Perú</option>
-                    <option value="Mexico">México</option>
-                  </select>
-                  <p class="text-xs text-red-200">
-                    {errors.department?.message}
-                  </p>
-                </div>
-              </div>
+              {cities &&
+                departments &&
+                cities.length > 0 &&
+                departments.length > 0 && (
+                  <div class="w-full sm:flex sm:gap-2 mb-1">
+                    <div class="w-full sm:w-1/2 mb-1 sm:mb-0">
+                      <label class="block mb-1 text-gray-300" for="city">
+                        Ciudad
+                      </label>
+
+                      <select
+                        class="w-full rounded-lg border border-gray-300 bg-gray-700 text-white py-2 px-3 text-sm"
+                        {...register("city", { value: cities[0]?._id })}
+                      >
+                        {cities.length > 0 &&
+                          cities.map((city) => (
+                            <option value={city._id}>{city.name}</option>
+                          ))}
+                      </select>
+                      <p class="text-xs text-red-200">{errors.city?.message}</p>
+                    </div>
+                    <div class="w-full sm:w-1/2">
+                      <label class="block mb-1 text-gray-300" for="department">
+                        Departamento
+                      </label>
+                      <select
+                        class="w-full rounded-lg border border-gray-300 bg-gray-700 text-white py-2 px-3 text-sm"
+                        {...register("department", {
+                          value: departments[0]._id,
+                        })}
+                      >
+                        {departments.length > 0 &&
+                          departments.map((dep) => (
+                            <option value={dep._id}>{dep.name}</option>
+                          ))}
+                      </select>
+                      <p class="text-xs text-red-200">
+                        {errors.department?.message}
+                      </p>
+                    </div>
+                  </div>
+                )}
               <button
                 type="submit"
                 class="w-full mt-6 sm:w-1/2 rounded-lg bg-yellow-600 hover:bg-yellow-500 py-2 text-white font-medium shadow-lg transition-colors"

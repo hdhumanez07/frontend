@@ -12,7 +12,7 @@ import useAuth from "../../context/useAuth";
 export function Login() {
   //initFalseUser();
   //initLocalStorage();
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const { register, handleSubmit } = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
   });
