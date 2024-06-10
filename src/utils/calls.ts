@@ -9,13 +9,13 @@
  * "?key=value&key2=value2"
  */
 
-interface IQueryParams {
-  [key: string]: any;
+export interface IQueryParams {
+  [key: string]: string | number | boolean;
 }
 
 const addQueryParams = (queryParams: IQueryParams) => {
-  if (Object.keys(queryParams).length === 0) return '';
-  let query = '?';
+  if (Object.keys(queryParams).length === 0) return "";
+  let query = "?";
   query += Object.keys(queryParams)
     .map((key) => {
       return queryParams[key] !== undefined
@@ -23,7 +23,7 @@ const addQueryParams = (queryParams: IQueryParams) => {
         : null;
     })
     .filter((value) => value !== null) // Filter out null values
-    .join('&');
+    .join("&");
   return query;
 };
 

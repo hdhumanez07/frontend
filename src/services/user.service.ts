@@ -1,10 +1,12 @@
-import { IPokemon } from "../interfaces/pokemon.interface";
+import { IResponse } from "../interfaces/http.interface";
+import { IPokemon, IPokemonResponse } from "../interfaces/pokemon.interface";
+import { IUser, IUserContext } from "../interfaces/user.interface";
 import { TLoginSchema, TUserSchema } from "../schemas/user.schema";
 import { addQueryParams } from "../utils/calls";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-async function signUp(data: TUserSchema) {
+async function signUp(data: TUserSchema): Promise<IResponse<IUser>> {
   const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: {
@@ -15,7 +17,9 @@ async function signUp(data: TUserSchema) {
   return response.json();
 }
 
-async function login(data: TLoginSchema) {
+async function login(
+  data: TLoginSchema
+): Promise<IResponse<IUserContext["auth"]>> {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: {
@@ -26,7 +30,7 @@ async function login(data: TLoginSchema) {
   return response.json();
 }
 
-async function getUsers(token: string) {
+async function getUsers(token: string): Promise<IResponse<IUser[]>> {
   const response = await fetch(`${API_URL}/users`, {
     method: "GET",
     headers: {
@@ -36,18 +40,21 @@ async function getUsers(token: string) {
   return response.json();
 }
 
-async function getPokemons(params?: { limit: number; offset: number }) {
-  if (!params) {
-    params = { limit: 20, offset: 40 };
-  }
-  const queryParams = addQueryParams(params);
+async function getPokemons(params?: {
+  limit: number;
+  offset: number;
+}): Promise<IResponse<IPokemonResponse>> {
+  const queryParams = params ? addQueryParams(params) : "";
   const response = await fetch(`${API_URL}/pokemons${queryParams}`, {
     method: "GET",
   });
   return response.json();
 }
 
-async function getPokemonsByUser(iduser: string, token: string) {
+async function getPokemonsByUser(
+  iduser: string,
+  token: string
+): Promise<IResponse<IPokemon[]>> {
   // Se pudo usar el token para obtener el id del usuario
   // pero para efectos de la prueba se envía el id del usuario
   const response = await fetch(`${API_URL}/users/favorites/${iduser}`, {
@@ -59,7 +66,10 @@ async function getPokemonsByUser(iduser: string, token: string) {
   return response.json();
 }
 
-async function addPokemon(data: IPokemon, token: string) {
+async function addPokemon(
+  data: IPokemon,
+  token: string
+): Promise<IResponse<IPokemon>> {
   const response = await fetch(`${API_URL}/users/favorites`, {
     method: "POST",
     headers: {
@@ -71,7 +81,10 @@ async function addPokemon(data: IPokemon, token: string) {
   return response.json();
 }
 
-async function deletePokemon(id: string, token: string) {
+async function deletePokemon(
+  id: string,
+  token: string
+): Promise<IResponse<IPokemon>> {
   const response = await fetch(`${API_URL}/users/favorites/${id}`, {
     method: "DELETE",
     headers: {

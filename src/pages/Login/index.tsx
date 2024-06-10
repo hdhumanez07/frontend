@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TLoginSchema, loginSchema } from "../../schemas/user.schema";
 import { login } from "../../services/user.service";
 import { Toaster } from "react-hot-toast";
-import { IResponse } from "../../interfaces/http.interface";
 import { doAlert } from "../../utils/alert";
 import useAuth from "../../context/useAuth";
 // import { initFalseUser, initLocalStorage } from "../../context/InitFalseUser";
@@ -18,7 +17,7 @@ export function Login() {
   });
 
   const onSubmit = (data: TLoginSchema) => {
-    login(data).then((response: IResponse) => {
+    login(data).then((response) => {
       if (response.success) {
         setAuth(response.data);
         window.localStorage.setItem("auth", JSON.stringify(response.data));

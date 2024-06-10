@@ -4,7 +4,6 @@ import { userSchema, TUserSchema } from "../../schemas/user.schema";
 import busPeople from "../../assets/business-people.png";
 import { signUp } from "../../services/user.service";
 import { Toaster } from "react-hot-toast";
-import { IResponse } from "../../interfaces/http.interface";
 import { doAlert } from "../../utils/alert";
 import { useNavigate } from "react-router-dom";
 import { IDepartment } from "../../interfaces/department.interface";
@@ -28,7 +27,7 @@ export function Signup() {
   });
 
   const onSubmit = (data: TUserSchema) => {
-    signUp(data).then((response: IResponse) => {
+    signUp(data).then((response) => {
       doAlert(response.info, response.success);
       if (response.success) {
         setTimeout(() => {
