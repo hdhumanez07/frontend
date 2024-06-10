@@ -1,15 +1,56 @@
-# `create-preact`
 
-<h2 align="center">
-  <img height="256" width="256" src="./src/assets/preact.svg">
-</h2>
+# Pasos para ejecutar el proyecto
 
-<h3 align="center">Get started using Preact and Vite!</h3>
+- Clonar el repositorio del backend https://github.com/hdhumanez07/api-rest-users.git
 
-## Getting Started
+- Usar en el backend las variables de entorno enviadas a su correo .env.development y .env.production
 
--   `npm run dev` - Starts a dev server at http://localhost:5173/
 
--   `npm run build` - Builds for production, emitting to `dist/`
 
--   `npm run preview` - Starts a server at http://localhost:4173/ to test production build locally
+## Config. backend
+
+Para ejecutar en desarrollo debe tener instalado pnpm.
+
+Para desarrollo
+```bash
+  pnpm install
+  pnpm run dev
+```
+Tambien tienes otros scripts adicionales para hacer debugging y hacer pre-commit con husky para impedir hacer push a ramas si tienen errores de linter con eslint. lo que obliga a desarrolladores a seguir las reglas de eslint.
+```bash
+  pnpm run debug
+  pnpm run prepare
+```
+Para producción
+```bash
+  pnpm install
+  pnpm run build
+  pnpm start
+```
+## Config. Frontend
+
+Para ejecutar en desarrollo debe tener instalado node.
+- Clonar el repositorio del backend https://github.com/hdhumanez07/api-rest-users.git
+
+Para desarrollo
+```bash
+  npm install
+  npm run dev
+```
+
+Para producción
+```bash
+  npm install
+  npm run build
+  npm run preview
+```
+
+**Para tener en cuenta**: 
+- Debe estar corriendo ambos proyectos para su correcto funcionamiento.
+
+- Las etiquetas del Dom utiliza class no className ya que utilizo una versión liviana similar a React llamado Preact y este no tiene necesidad de usar className.
+
+## Authors
+
+- [@hdhumanez07](https://www.github.com/hdhumanez07)
+
