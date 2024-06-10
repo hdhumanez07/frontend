@@ -30,7 +30,7 @@ Para producción
 ## Config. Frontend
 
 Para ejecutar en desarrollo debe tener instalado node.
-- Clonar el repositorio del backend https://github.com/hdhumanez07/api-rest-users.git
+- Clonar el repositorio del frontend https://github.com/hdhumanez07/frontend.git
 
 Para desarrollo
 ```bash
